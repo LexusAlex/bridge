@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#5b43f1">
+  <meta name="description" content="Bridge — короткие уроки английского с умным повторением и сохранением прогресса на устройстве.">
+  <title>Bridge — английский, который остаётся с тобой</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">К содержимому</a>
+
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="Основная навигация">
+      <a class="brand" href="#today" aria-label="Bridge — главная">
+        <span class="brand-mark" aria-hidden="true">B<span>↗</span></span>
+        <span class="brand-name"><strong>Bridge</strong></span>
+      </a>
+
+      <nav class="main-nav">
+        <button class="nav-item is-active" type="button" data-view-target="today" aria-current="page">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10.5V20h13v-9.5M9 20v-6h6v6"/></svg>
+          <span>Сегодня</span>
+        </button>
+        <button class="nav-item" type="button" data-view-target="learn">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H11v17H6.5A2.5 2.5 0 0 0 4 22V5.5Z"/><path d="M20 5.5A2.5 2.5 0 0 0 17.5 3H13v17h4.5A2.5 2.5 0 0 1 20 22V5.5Z"/></svg>
+          <span>Уроки</span>
+        </button>
+        <button class="nav-item" type="button" data-view-target="review">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 7v5h-5"/><path d="M18.2 17.2a8 8 0 1 1 1.5-8.8L20 12"/></svg>
+          <span>Повторение</span>
+          <span class="nav-count" id="review-nav-count" aria-label="слов к повторению">0</span>
+        </button>
+        <button class="nav-item" type="button" data-view-target="progress">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>
+          <span>Прогресс</span>
+        </button>
+      </nav>
+
+      <div class="sidebar-streak">
+        <span class="streak-icon" aria-hidden="true">↗</span>
+        <div><strong id="sidebar-streak">0 дней</strong><span>текущая серия</span></div>
+      </div>
+
+      <button class="quiet-button sidebar-reset" id="reset-progress" type="button">Сбросить прогресс</button>
+    </aside>
+
+    <main id="main-content" class="main-content" tabindex="-1">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow" id="today-label">Сегодня</p>
+          <h1 id="page-title">Добрый день!</h1>
+        </div>
+        <div class="topbar-stats" aria-label="Краткая статистика">
+          <div class="stat-pill xp-pill"><span aria-hidden="true">✦</span><strong id="header-xp">0</strong><small>XP</small></div>
+          <div class="stat-pill"><span aria-hidden="true">↗</span><strong id="header-streak">0</strong><small>дн.</small></div>
+          <button class="avatar-button" id="avatar-button" type="button" aria-label="О прогрессе">YOU</button>
+        </div>
+      </header>
+
+      <section class="view is-active" id="view-today" data-view="today" aria-labelledby="page-title">
+        <section class="mission-card" aria-labelledby="mission-title">
+          <div class="mission-copy">
+            <span class="section-kicker light">Ежедневная миссия · 10 минут</span>
+            <h2 id="mission-title">Сделай английский<br>частью своего дня.</h2>
+            <p id="mission-description">Новые слова, короткое повторение и один бодрый спринт.</p>
+            <button class="primary-button light-button" id="start-daily" type="button">
+              Начать занятие
+              <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m7 4 6 6-6 6"/></svg>
+            </button>
+          </div>
+
+          <div class="mission-orbit" aria-label="Прогресс дневной цели">
+            <div class="orbit-ring" id="daily-progress-ring">
+              <div class="orbit-center"><strong id="daily-percent">0%</strong><span>цели</span></div>
+              <span class="orbit-dot dot-one" aria-hidden="true">A</span>
+              <span class="orbit-dot dot-two" aria-hidden="true">?</span>
+              <span class="orbit-dot dot-three" aria-hidden="true">✓</span>
+            </div>
+          </div>
+
+          <div class="mission-steps" aria-label="Состав занятия">
+            <div><span class="step-icon purple">Aa</span><p><strong>6 новых слов</strong><small>Сначала знакомимся</small></p></div>
+            <div><span class="step-icon coral">↻</span><p><strong id="mission-review-count">0 на повторение</strong><small>В нужный момент</small></p></div>
+            <div><span class="step-icon lime">⚡</span><p><strong>1 мини-спринт</strong><small>Закрепляем в игре</small></p></div>
+          </div>
+        </section>
+
+        <div class="today-grid">
+          <section class="panel quick-panel" aria-labelledby="quick-title">
+            <div class="panel-heading">
+              <div><span class="section-kicker">Разминка</span><h2 id="quick-title">Одно слово — прямо сейчас</h2></div>
+              <span class="time-badge">30 сек</span>
+            </div>
+            <div class="quick-word">
+              <div><span class="word-label">Как перевести?</span><strong id="quick-word">curious</strong><button class="sound-button" type="button" data-speak="curious" aria-label="Произнести слово curious">🔊</button></div>
+              <p id="quick-example">She was curious about the new place.</p>
+            </div>
+            <div class="answer-grid" id="quick-answers" aria-label="Варианты ответа"></div>
+            <p class="inline-feedback" id="quick-feedback" role="status" aria-live="polite"></p>
+          </section>
+
+          <section class="panel rhythm-panel" aria-labelledby="rhythm-title">
+            <div class="panel-heading">
+              <div><span class="section-kicker">Твой ритм</span><h2 id="rhythm-title">Неделя в движении</h2></div>
+              <button class="text-button" type="button" data-view-target="progress">Подробнее →</button>
+            </div>
+            <div class="week-strip" id="week-strip" aria-label="Активность за семь дней"></div>
+            <div class="rhythm-summary">
+              <strong id="week-xp">0 XP</strong>
+              <span id="rhythm-message">Первое занятие начнёт твою серию.</span>
+            </div>
+          </section>
+        </div>
+
+        <section class="topic-section" aria-labelledby="continue-title">
+          <div class="section-heading-row">
+            <div><span class="section-kicker">Маршрут</span><h2 id="continue-title">Продолжить обучение</h2></div>
+            <button class="text-button" type="button" data-view-target="learn">Все уроки →</button>
+          </div>
+          <div class="topic-preview-grid" id="topic-preview-grid"></div>
+        </section>
+      </section>
+
+      <section class="view" id="view-learn" data-view="learn" aria-label="Уроки">
+        <div class="view-intro">
+          <div><span class="section-kicker">Учись по темам</span><h2>Слова, которые пригодятся</h2><p>Короткие подборки с контекстом и практикой. Выбирай любую.</p></div>
+          <div class="level-chip"><span>Твой уровень</span><strong>A2 → B1</strong></div>
+        </div>
+        <div class="lesson-grid" id="lesson-grid"></div>
+      </section>
+
+      <section class="view" id="view-review" data-view="review" aria-label="Повторение">
+        <div class="review-hero">
+          <div class="review-hero-copy">
+            <span class="section-kicker light">Умное повторение</span>
+            <h2>Вспомни вовремя —<br>запомни надолго.</h2>
+            <p>Слова возвращаются с растущим интервалом: сегодня, через 1, 3, 7 и 14 дней.</p>
+            <button class="primary-button light-button" id="start-review" type="button">Начать повторение</button>
+          </div>
+          <div class="review-stack" aria-hidden="true">
+            <div class="stack-card back-card">remember</div>
+            <div class="stack-card middle-card">confident</div>
+            <div class="stack-card front-card"><span>Сегодня</span><strong id="review-hero-count">0</strong><small>слов ждут тебя</small></div>
+          </div>
+        </div>
+
+        <div class="review-columns">
+          <section class="panel" aria-labelledby="queue-title">
+            <div class="panel-heading"><div><span class="section-kicker">Очередь</span><h2 id="queue-title">Что повторяем</h2></div></div>
+            <div class="review-list" id="review-list"></div>
+          </section>
+          <section class="panel memory-panel" aria-labelledby="memory-title">
+            <span class="section-kicker">Память</span><h2 id="memory-title">Как растёт интервал</h2>
+            <div class="memory-steps">
+              <div class="is-reached"><span>1</span><strong>Сегодня</strong><small>первое знакомство</small></div>
+              <div><span>2</span><strong>+1 день</strong><small>первое повторение</small></div>
+              <div><span>3</span><strong>+3 дня</strong><small>уже знакомо</small></div>
+              <div><span>4</span><strong>+7 дней</strong><small>почти в памяти</small></div>
+              <div><span>5</span><strong>+14 дней</strong><small>закреплено</small></div>
+            </div>
+          </section>
+        </div>
+      </section>
+
+      <section class="view" id="view-progress" data-view="progress" aria-label="Прогресс">
+        <div class="view-intro">
+          <div><span class="section-kicker">Твой прогресс</span><h2>Каждый круг делает сильнее</h2><p>Здесь видны знания, регулярность и слова, которые уже закрепились.</p></div>
+          <div class="level-chip progress-level"><span>До уровня B1</span><strong id="level-progress-text">0%</strong></div>
+        </div>
+
+        <div class="metrics-grid">
+          <article class="metric-card violet"><span class="metric-icon">✦</span><strong id="metric-xp">0</strong><small>всего XP</small></article>
+          <article class="metric-card coral"><span class="metric-icon">↗</span><strong id="metric-streak">0</strong><small>дней подряд</small></article>
+          <article class="metric-card yellow"><span class="metric-icon">Aa</span><strong id="metric-words">0</strong><small>слов изучено</small></article>
+          <article class="metric-card cyan"><span class="metric-icon">✓</span><strong id="metric-accuracy">0%</strong><small>точность</small></article>
+        </div>
+
+        <div class="progress-grid">
+          <section class="panel chart-panel" aria-labelledby="activity-title">
+            <div class="panel-heading"><div><span class="section-kicker">Активность</span><h2 id="activity-title">Последние 7 дней</h2></div><span class="time-badge" id="chart-total">0 XP</span></div>
+            <div class="bar-chart" id="bar-chart" aria-label="График полученного опыта"></div>
+          </section>
+          <section class="panel vocabulary-panel" aria-labelledby="vocabulary-title">
+            <div class="panel-heading"><div><span class="section-kicker">Словарь</span><h2 id="vocabulary-title">Состояние памяти</h2></div></div>
+            <div class="donut-wrap">
+              <div class="donut" id="vocabulary-donut"><div><strong id="donut-total">0</strong><span>слов</span></div></div>
+              <div class="donut-legend">
+                <p><i class="legend-dot mastered"></i><span>Закреплено</span><strong id="legend-mastered">0</strong></p>
+                <p><i class="legend-dot learning"></i><span>Изучается</span><strong id="legend-learning">0</strong></p>
+                <p><i class="legend-dot new"></i><span>Не начато</span><strong id="legend-new">24</strong></p>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <section class="panel mastered-panel" aria-labelledby="mastered-title">
+          <div class="panel-heading"><div><span class="section-kicker">Сильные слова</span><h2 id="mastered-title">Лучше всего знакомы</h2></div><span class="time-badge">по точности</span></div>
+          <div class="mastered-words" id="mastered-words"></div>
+        </section>
+      </section>
+    </main>
+  </div>
+
+  <dialog class="lesson-dialog" id="lesson-dialog" aria-labelledby="session-title">
+    <div class="dialog-shell">
+      <header class="dialog-header">
+        <button class="icon-button" id="close-session" type="button" aria-label="Закрыть занятие">×</button>
+        <div class="session-progress"><span id="session-progress-bar"></span></div>
+        <div class="session-score"><span aria-hidden="true">✦</span><strong id="session-xp">0</strong></div>
+      </header>
+      <div class="session-content" id="session-content"></div>
+    </div>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
